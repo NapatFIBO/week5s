@@ -388,7 +388,7 @@ void encoderSpeedReaderCycle() {
 		//time never go back, but timer can over flow , conpensate that
 		if (DiffTime[i] <0)
 		{
-			DiffTime[i]+=65535;
+			DiffTime[i]+=4294967295;
 		}
 		//Sum all 15 Diff
 		sum += DiffTime[i];
@@ -405,7 +405,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
  if(htim == &htim5)
  {
-	 _micros += 65535;
+	 _micros += 4294967295;
  }
 }
 /* USER CODE END 4 */

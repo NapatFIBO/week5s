@@ -52,12 +52,12 @@ UART_HandleTypeDef huart2;
 
 //12 P/R , Gear reduction 1 : 64
 //DMA Buffer
-uint16_t capturedata[CAPTURENUM] = { 0 };
+uint32_t capturedata[CAPTURENUM] = { 0 };
 //diff time of capture data
 int32_t DiffTime[CAPTURENUM-1] = { 0 };
 //Mean difftime
 float MeanTime =0;
-
+float velocity = 0;
 
 
 
@@ -131,12 +131,11 @@ int main(void)
 		//read Time of encoder
 		encoderSpeedReaderCycle();
 
-		if(micros()-timestamp > 1000000)
+		if(micros()-timestamp > 100000)
 		{
 			timestamp = micros();
 			HAL_GPIO_TogglePin(LD2_GPIO_Port,LD2_Pin);
 		}
-
 
     /* USER CODE END WHILE */
 
@@ -395,6 +394,7 @@ void encoderSpeedReaderCycle() {
 
 	//mean all 15 Diff
 	MeanTime =sum / (float)(CAPTURENUM-1);
+	velocity = 60000000/(12*64*MeanTime);
 }
 uint64_t micros()
 {
